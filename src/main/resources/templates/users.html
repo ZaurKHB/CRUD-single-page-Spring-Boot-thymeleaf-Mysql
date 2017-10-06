@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>User Account Managment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <style>
+
+        .note{
+
+            color: #f4ffff;
+            font: "Lucida Sans Unicode";
+            box-shadow: #4CAF50;
+            font-style: italic;
+            border-color: #8c8c8c;
+            padding: 0%;
+            margin: 0%;
+        }
+        html{
+            background-color: #3ea056;
+
+        }
+
+        form{
+
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 30%;
+            float: left;
+            margin-right: 0%;
+            padding-right: 0%;
+        }
+        table{
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 70%;
+            float: left;
+            background-color: #8c8c8c;
+            padding-left: 0%;
+            margin-left: 0%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+        input[type=text], select {
+            width: 40%;
+            padding: 5px 8px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+
+        }input[type=number], select {
+              width: 40%;
+              padding: 5px 8px;
+              margin: 5px 0;
+              display: inline-block;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              box-sizing: border-box;
+
+          }
+        input[type=date], select {
+            width: 40%;
+            padding: 5px 8px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+
+        }
+         p{
+             color: #d9edf7;
+             font-size: large;
+             padding-bottom: 0%;
+             margin-bottom: 0%;
+             margin-top: 1%;
+         }
+
+        input[type=submit] {
+            width: 20%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 7px;
+            margin: 0px 0;
+            border: inherit;
+            border-radius: 4px;
+            cursor: pointer;
+            float: left;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        #tableAddres{
+
+            width: auto;
+        }
+
+
+
+    </style>
+    <script>
+
+    function Save() {
+    document.getElementById('opType').value ="save";
+    }
+    function Search(){
+    document.getElementById('opType').value ="search";
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <form action="#" id="form_id" th:action="@{/accounts}" th:object="${users}" method="post">
+
+    <p><label>ID:</label> </p>
+        <input type="number" th:field="*{id}" />
+        <p><label>Name:</label> </p>
+         <input type="text" th:field="*{name}"  />
+        <p><label>Lastname</label> </p>
+        <input type="text" th:field="*{lastName}" />
+        <p><label>Parent Name</label> </p>
+        <input type="text" th:field="*{parentname}" />
+        <p><label>Bithday</label> </p>
+        <input type="date" th:field="*{birthday}"  />
+        <!--<input type="date" th:field="*{datehelper}"  />-->
+
+        <p><label>Number</label> </p>
+
+         <input type="text" th:field="*{number}" />
+        <p><label>Address</label> </p>
+
+         <input type="text" th:field="*{address}"  />
+      <p> <input type="hidden" id="opType" th:field="*{operationType}" /></p>
+        <p class="note"> *all for save and update </p>
+        <p class="note">*id for remove </p>
+        <p><input type="submit" onclick="Save()" value="Save" /> </p>
+                <!--<p><input type="submit" onclick="Delete()" value="Remove" /> </p>-->
+        <p><input type="submit" onclick="Save()" value="Update" /> </p>
+        <p><input type="submit" onclick="Search()" value="Search" /> </p>
+
+
+    </form>
+
+
+
+    <table id="table" border="1" class="myTable">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Parentname</th>
+        <th>Birthday</th>
+        <th>Number</th>
+        <th>Address</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each = "acca : ${accounts}">
+
+        <td th:text="${acca.id}" onclick="Save()"> </td>
+        <td th:text="${acca.name}"></td>
+        <td th:text="${acca.lastName}"></td>
+        <td th:text="${acca.parentname}"></td>
+        <td th:text="${acca.birthday}"></td>
+        <td th:text="${acca.number}"></td>
+        <td id="tableAddres" th:text="${acca.address}"></td>
+
+        <td>    <form method="POST" th:action="@{/edit(id=${acca.id})}">
+            <button type="submit">Edit</button></form>
+
+        </td>
+
+        <td>    <form method="POST" th:action="@{/delete(id=${acca.id})}">
+            <button type="submit">Remove</button></form>
+
+        </td>
+    </tr>
+    </table>
+
+
+
+</body>
+</html>
